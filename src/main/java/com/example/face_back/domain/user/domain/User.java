@@ -23,7 +23,7 @@ public class User {
     @Column(nullable = false, length = 10)
     private String nickname;
 
-    private String profileImageUrl;
+    private String path;
 
     @Builder
     public User(String userId, String password, String nickname){
@@ -32,7 +32,8 @@ public class User {
         this.nickname = nickname;
     }
 
-    public void profileImgUpload(String profileImageUrl){
-        this.profileImageUrl = profileImageUrl;
+    public String updatePath(String path) {
+        this.path = path;
+        return this.path;
     }
 }

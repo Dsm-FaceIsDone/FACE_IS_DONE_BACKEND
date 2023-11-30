@@ -21,8 +21,8 @@ public class RefreshToken {
     private String refreshToken;
 
     @Builder
-    public RefreshToken (String accountId, String refreshToken) {
-        this.userId = accountId;
+    public RefreshToken (String userId, String refreshToken) {
+        this.userId = userId;
         this.refreshToken = refreshToken;
     }
 }

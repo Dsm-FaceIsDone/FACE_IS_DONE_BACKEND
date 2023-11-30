@@ -2,9 +2,14 @@ package com.example.face_back.infra.aws.service;
 
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.example.face_back.infra.aws.exception.ImageBadRequestException;
+import com.example.face_back.infra.aws.exception.ImageUploadFailException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,44 +17,65 @@ import java.io.IOException;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-@Service
+@Component
 public class S3Util {
-
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
-
     private final AmazonS3 amazonS3;
 
-    public String upload(MultipartFile multipartFile){
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucketName;
 
+    @Value("${cloud.aws.s3.url}")
+    private String baseUrl;
 
-        String s3FileName = UUID.randomUUID() + "-" + multipartFile.getOriginalFilename();
+    @Value("${cloud.aws.s3.default-image}")
+    private String defaultImage;
 
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-
-        try {
-            objectMetadata.setContentType("image/jpeg");
-            objectMetadata.setContentLength(multipartFile.getInputStream().available());
-        } catch (IOException e) {
-            throw new IllegalStateException();
-        }
-
-        try{
-            amazonS3.putObject(bucket, s3FileName, multipartFile.getInputStream(), objectMetadata);
-        } catch (Exception e){
-            throw new IllegalStateException();
-        }
-
-
-        return amazonS3.getUrl(bucket, s3FileName).toString();
-
+    public void delete(String objectName) {
+        amazonS3.deleteObject(bucketName, objectName);
     }
 
-    public void deleteFile(String fileName) throws IOException{
+    public String getProfileImgUrl(String path) {
+        return (path != null)? baseUrl + "/" + path : defaultImage;
+    }
+
+    public String getPostImageUrl(String path) {
+        return (path != null)? baseUrl + "/" + path : null;
+    }
+
+    public String upload(MultipartFile image) {
+        String extension = verificationFile(image);
+        String filePath;
+
         try {
-            amazonS3.deleteObject(bucket, fileName);
-        } catch (SdkClientException e){
-            throw new IOException("삭제를 실패하였습니다.", e);
+            filePath = saveImage(image, extension);
+        } catch (IOException e) {
+            throw ImageUploadFailException.EXCEPTION;
         }
+
+        return filePath;
+    }
+
+    private String saveImage(MultipartFile file, String extension) throws IOException {
+        String filePath = UUID.randomUUID() + extension;
+
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(file.getSize());
+        objectMetadata.setContentType(file.getContentType());
+
+        amazonS3.putObject(new PutObjectRequest(bucketName, filePath, file.getInputStream(), objectMetadata)
+                .withCannedAcl(CannedAccessControlList.PublicRead));
+
+        return filePath;
+    }
+
+    public String verificationFile(MultipartFile file){
+        if(file == null || file.isEmpty() || file.getOriginalFilename() == null) throw ImageBadRequestException.EXCEPTION;
+
+        String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+        if(!(extension.contains(".png") || extension.contains(".JPG") || extension.contains(".jpg") || extension.contains(".JPEG") || extension.contains(".jpeg") || extension.contains(".WEBP") || extension.contains(".webp"))) {
+            throw ImageBadRequestException.EXCEPTION;
+        }
+
+        return extension;
     }
 }

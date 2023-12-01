@@ -14,10 +14,10 @@ import javax.persistence.Id;
 @Entity
 public class User {
     @Id
-    @Column(name = "user_id", nullable = false, length = 16)
+    @Column(nullable = false, length = 16, unique = true)
     private String userId;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 60)
     private String password;
 
     @Column(nullable = false, length = 10)
@@ -26,10 +26,11 @@ public class User {
     private String path;
 
     @Builder
-    public User(String userId, String password, String nickname){
+    public User(String userId, String password, String nickname, String path){
         this.userId = userId;
         this.password = password;
         this.nickname = nickname;
+        this.path = "";
     }
 
     public String updatePath(String path) {

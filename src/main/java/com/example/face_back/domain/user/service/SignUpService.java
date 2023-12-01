@@ -6,7 +6,7 @@ import com.example.face_back.domain.user.domain.repository.RefreshTokenRepositor
 import com.example.face_back.domain.user.domain.repository.UserRepository;
 import com.example.face_back.domain.user.presentation.dto.request.SignUpRequest;
 import com.example.face_back.domain.user.presentation.dto.response.TokenResponse;
-import com.example.face_back.domain.user.service.exception.AccountIdAlreadyExistException;
+import com.example.face_back.domain.user.service.exception.UserIdAlreadyExistException;
 import com.example.face_back.global.config.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,7 +22,7 @@ public class SignUpService {
 
     public TokenResponse userSignUp(SignUpRequest request) {
         if (userRepository.existsByUserId(request.getUserId())) {
-            throw new AccountIdAlreadyExistException();
+            throw new UserIdAlreadyExistException();
         }
 
         User user = userRepository.save(User.builder()

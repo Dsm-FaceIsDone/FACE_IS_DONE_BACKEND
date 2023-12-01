@@ -4,7 +4,7 @@ import com.example.face_back.domain.post.domain.repository.PostRepository;
 import com.example.face_back.domain.user.domain.User;
 import com.example.face_back.domain.user.domain.repository.UserRepository;
 import com.example.face_back.domain.user.presentation.dto.response.UserDetailsResponse;
-import com.example.face_back.domain.user.service.exception.AccountIdAlreadyExistException;
+import com.example.face_back.domain.user.service.exception.UserIdAlreadyExistException;
 import com.example.face_back.domain.user.service.util.UserUtil;
 import com.example.face_back.infra.aws.service.S3Util;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +32,8 @@ public class UserService {
                 .build();
     }
 
-    public void existsAccountId(String accountId) {
-        if(userRepository.existsByUserId(accountId)) throw new AccountIdAlreadyExistException();
+    public void existsUserId(String userId) {
+        if(userRepository.existsByUserId(userId)) throw UserIdAlreadyExistException.EXCEPTION;
     }
 
 }

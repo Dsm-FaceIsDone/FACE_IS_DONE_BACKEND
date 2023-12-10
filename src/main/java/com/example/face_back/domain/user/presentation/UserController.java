@@ -8,11 +8,14 @@ import com.example.face_back.domain.user.service.LogInService;
 import com.example.face_back.domain.user.service.LogOutService;
 import com.example.face_back.domain.user.service.SignUpService;
 import com.example.face_back.domain.user.service.UserService;
+import com.example.face_back.domain.user.service.exception.UserNotFoundException;
 import com.example.face_back.domain.user.service.util.UserUtil;
 import com.example.face_back.global.config.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,5 +53,27 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void logout() {
         logOutService.logOut();
+    }
+
+    @PostMapping("/refresh")
+    @ResponseStatus(HttpStatus.CREATED)
+    public TokenResponse reassignToken(@RequestHeader("Refresh-Token") String refreshToken) {
+        if (!jwtTokenProvider.validateToken(refreshToken)) {
+            throw UserNotFoundException.EXCEPTION;
+        }
+        String accountId = jwtTokenProvider.getSubject(refreshToken);
+        UserDetails userDetails;
+        try {
+            userDetails = userDetailsService.loadUserByUsername(accountId);
+        } catch (UsernameNotFoundException e) {
+            throw UserNotFoundException.EXCEPTION;
+        }
+        String newAccessToken = jwtTokenProvider.generateAccessToken(accountId);
+        TokenResponse response = TokenResponse.builder()
+                .accessToken(newAccessToken)
+                .refreshToken(refreshToken)
+                .build();
+
+        return response;
     }
 }

@@ -6,7 +6,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -27,14 +33,14 @@ public class Post {
 
     private String postImgUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     @Builder
     public Post(String content, Integer heartCount){
         this.content = content;
-        this.heartCount = heartCount;
+        this.heartCount = 0;
     }
 
     public void ImgUpload(String postImgUrl) {

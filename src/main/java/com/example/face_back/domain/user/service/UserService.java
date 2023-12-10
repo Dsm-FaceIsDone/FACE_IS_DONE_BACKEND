@@ -32,7 +32,7 @@ public class UserService {
                 .build();
     }
 
-    public void existsUserId(String userId) {
+    public void UserIdExist(String userId) {
         if(userRepository.existsByUserId(userId)) throw UserIdAlreadyExistException.EXCEPTION;
     }
 

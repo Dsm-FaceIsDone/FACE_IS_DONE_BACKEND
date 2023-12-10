@@ -38,4 +38,9 @@ public class UserController {
     public TokenResponse login(@RequestBody LogInRequest request){
         return logInService.userLogIn(request);
     }
+
+    @GetMapping("/{accountId}")
+    public void UserIdExist(@PathVariable String userId) {
+        userService.UserIdExist(userId);
+    }
 }

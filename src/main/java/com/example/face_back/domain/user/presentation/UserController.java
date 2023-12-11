@@ -4,6 +4,7 @@ package com.example.face_back.domain.user.presentation;
 import com.example.face_back.domain.user.presentation.dto.request.LogInRequest;
 import com.example.face_back.domain.user.presentation.dto.request.SignUpRequest;
 import com.example.face_back.domain.user.presentation.dto.response.TokenResponse;
+import com.example.face_back.domain.user.presentation.dto.response.UserDetailsResponse;
 import com.example.face_back.domain.user.service.LogInService;
 import com.example.face_back.domain.user.service.LogOutService;
 import com.example.face_back.domain.user.service.SignUpService;
@@ -75,5 +76,10 @@ public class UserController {
                 .build();
 
         return response;
+    }
+
+    @GetMapping
+    public UserDetailsResponse getUser() {
+        return userService.getUser();
     }
 }

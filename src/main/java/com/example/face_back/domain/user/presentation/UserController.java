@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @Transactional
@@ -81,5 +82,11 @@ public class UserController {
     @GetMapping
     public UserDetailsResponse getUser() {
         return userService.getUser();
+    }
+
+    @PostMapping(value = "/profileImage/{userId}", consumes = {"multipart/form-data"})
+    @ResponseStatus(HttpStatus.CREATED)
+    public void profileImage(@PathVariable String userId, @RequestPart(value = "image", required = false) MultipartFile file) {
+        userUtil.upload(userId, file);
     }
 }

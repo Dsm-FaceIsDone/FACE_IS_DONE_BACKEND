@@ -38,7 +38,7 @@ public class S3Util {
         return (path != null)? baseUrl + "/" + path : defaultImage;
     }
 
-    public String getPostImageUrl(String path) {
+    public String getPostImgUrl(String path) {
         return (path != null)? baseUrl + "/" + path : null;
     }
 

@@ -30,7 +30,6 @@ public class User {
         this.userId = userId;
         this.password = password;
         this.nickname = nickname;
-        this.path = "";
     }
 
     public String updatePath(String path) {

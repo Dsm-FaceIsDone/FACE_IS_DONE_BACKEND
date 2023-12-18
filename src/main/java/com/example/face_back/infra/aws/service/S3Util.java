@@ -42,6 +42,11 @@ public class S3Util {
         return (path != null)? baseUrl + "/" + path : null;
     }
 
+    public String getSkeinImgUrl(String path) {
+        return (path != null)? baseUrl + "/" + path : null;
+    }
+
+
     public String upload(MultipartFile image) {
         String extension = verificationFile(image);
         String filePath;

@@ -7,10 +7,12 @@ import lombok.Getter;
 public class SkeinResponse {
     private final Long id;
     private final String userNickname;
+    private final String userId;
 
     @Builder
-    public SkeinResponse(Long id, String userNickname, ){
+    public SkeinResponse(Long id, String userNickname, String userId){
         this.id = id;
         this.userNickname = userNickname;
+        this.userId = userId;
     }
 }

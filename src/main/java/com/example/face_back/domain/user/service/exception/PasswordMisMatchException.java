@@ -6,7 +6,7 @@ import com.example.face_back.global.error.exception.ErrorCode;
 public class PasswordMisMatchException extends BaseException {
     public static final BaseException EXCEPTION = new PasswordMisMatchException();
 
-    private PasswordMisMatchException(){
+    public PasswordMisMatchException(){
         super(ErrorCode.PASSWORD_MISMATCH);
     }
 }

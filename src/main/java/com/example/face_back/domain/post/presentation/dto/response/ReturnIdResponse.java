@@ -4,11 +4,11 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class PostIdResponse {
+public class ReturnIdResponse {
     private Long id;
 
     @Builder
-    public PostIdResponse (Long id) {
+    public ReturnIdResponse (Long id) {
         this.id = id;
     }
 }

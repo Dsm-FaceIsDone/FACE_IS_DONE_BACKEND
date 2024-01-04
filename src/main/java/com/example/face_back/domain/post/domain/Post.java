@@ -1,19 +1,16 @@
 package com.example.face_back.domain.post.domain;
 
+import com.example.face_back.domain.skein.domain.Skein;
 import com.example.face_back.domain.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -31,20 +28,20 @@ public class Post {
     @NotNull
     private Integer heartCount;
 
-    private String postImgUrl;
+    private String path;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<Skein> skeins = new ArrayList<>();
+
     @Builder
-    public Post(String content, Integer heartCount){
+    public Post(User user, String content, Integer heartCount){
+        this.user = user;
         this.content = content;
         this.heartCount = 0;
-    }
-
-    public void ImgUpload(String postImgUrl) {
-        this.postImgUrl = postImgUrl;
     }
 
     public void addHeartCount() {
@@ -53,5 +50,10 @@ public class Post {
 
     public void minusHeartCount() {
         this.heartCount -= 1;
+    }
+
+    public String updatePath(String path) {
+        this.path = path;
+        return this.path;
     }
 }

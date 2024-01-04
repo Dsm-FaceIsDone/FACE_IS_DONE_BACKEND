@@ -13,6 +13,7 @@ public enum ErrorCode {
     PASSWORD_MISMATCH(400, "비밀번호가 일치하지 않습니다."),
     IMAGE_BAD_REQUEST(400, "이미지의 형식이 올바르지 않습니다"),
     IMAGE_UPLOAD_FAIL(400, "이미지가 정상적으로 저장되지 않았습니다"),
+    USER_NOT_MATCH(400, "유저가 일치하지 않습니다."),
 
     //UnAuthorised
     NOT_ACCESS_TOKEN(401, "access 토큰이 아닙니다."),

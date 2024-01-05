@@ -9,5 +9,4 @@ public class UserDetailsResponse {
     private final String nickname;
     private final String userId;
     private final String profileImgUrl;
-    private final long totalPosts;
 }

@@ -22,8 +22,7 @@ public class PostListService {
     public PostListResponse getUserPostsPaged(Pageable pageable) {
         Page<Post> posts = postRepository.findAllByUserOrderByIdDesc(userUtil.getUser(), pageable);
 
-        return new PostListResponse(posts.getTotalPages(),
-                posts.stream().map(this::ofPostResponse).collect(Collectors.toList()));
+        return new PostListResponse(posts.stream().map(this::ofPostResponse).collect(Collectors.toList()));
     }
 
     public PostListResponse findPost(String title, Pageable page) {
@@ -32,8 +31,7 @@ public class PostListService {
         posts = postRepository.findAllByContentContainingOrderByIdDesc(title, page);;
 
 
-        return new PostListResponse(posts.getTotalPages(),
-                posts.stream().map(this::ofPostResponse).collect(Collectors.toList()));
+        return new PostListResponse(posts.stream().map(this::ofPostResponse).collect(Collectors.toList()));
     }
 
     private PostListResponse.PostResponse ofPostResponse(Post post) {

@@ -18,7 +18,6 @@ public class UserService {
 
     private final UserUtil userUtil;
     private final S3Util s3Util;
-    private final PostRepository postRepository;
     private final UserRepository userRepository;
 
     public UserDetailsResponse getUser() {
@@ -28,7 +27,6 @@ public class UserService {
                 .nickname(user.getNickname())
                 .userId(user.getUserId())
                 .profileImgUrl(s3Util.getProfileImgUrl(user.getPath()))
-                .totalPosts(postRepository.countByUser(user))
                 .build();
     }
 

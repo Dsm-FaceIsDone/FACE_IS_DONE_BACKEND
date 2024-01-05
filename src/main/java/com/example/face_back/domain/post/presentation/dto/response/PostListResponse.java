@@ -10,7 +10,6 @@ import java.util.List;
 @Getter
 @RequiredArgsConstructor
 public class PostListResponse {
-    private final int totalPosts;
     private final List<PostResponse> postResponses;
 
     @Getter

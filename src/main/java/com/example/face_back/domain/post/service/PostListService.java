@@ -41,6 +41,7 @@ public class PostListService {
                 .content(post.getContent())
                 .nickname(post.getUser().getNickname())
                 .profileImage(s3Util.getProfileImgUrl(post.getUser().getPath()))
+                .heartCount(post.getHeartCount())
                 .build();
     }
 }

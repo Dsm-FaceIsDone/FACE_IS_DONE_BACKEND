@@ -30,6 +30,7 @@ public class PostDetailsService {
                 .profileImage(s3Util.getProfileImgUrl(post.getUser().getPath()))
                 .content(post.getContent())
                 .file(s3Util.getPostImgUrl(post.getPath()))
+                .heartCount(post.getHeartCount())
                 .skeins(post.getSkeins().stream().map(skein -> {
                     return SkeinResponse.builder()
                             .id(skein.getId())

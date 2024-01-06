@@ -2,12 +2,12 @@ package com.example.face_back.domain.heart.domain;
 
 import com.example.face_back.domain.post.domain.Post;
 import com.example.face_back.domain.user.domain.User;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -29,9 +29,8 @@ public class Heart {
     private Post post;
 
     @Builder
-    public Heart (User user, Post post) {
-        this.user = user;
+    public Heart(Post post, User user) {
         this.post = post;
+        this.user = user;
     }
-    
 }

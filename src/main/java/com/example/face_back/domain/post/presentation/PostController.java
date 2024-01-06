@@ -1,5 +1,8 @@
 package com.example.face_back.domain.post.presentation;
 
+import com.example.face_back.domain.heart.presentation.dto.HeartResponse;
+import com.example.face_back.domain.heart.service.CreateHeartService;
+import com.example.face_back.domain.heart.service.DeleteHeartService;
 import com.example.face_back.domain.post.presentation.dto.request.PostRequest;
 import com.example.face_back.domain.post.presentation.dto.response.PostListResponse;
 import com.example.face_back.domain.post.presentation.dto.response.PostResponse;
@@ -23,6 +26,8 @@ public class PostController {
     private final PostService postService;
     private final PostListService postListService;
     private final PostDetailsService postDetailsService;
+    private final CreateHeartService createHeartService;
+    private final DeleteHeartService deleteHeartService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -54,5 +59,17 @@ public class PostController {
     @GetMapping("/search")
     public PostListResponse findPost(@RequestParam(value = "content") String content, Pageable page) {
         return postListService.findPost(content, page);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/heart/{id}")
+    public HeartResponse heart(@PathVariable Long id) {
+        return createHeartService.createHeart(id);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/heart/{id}")
+    public HeartResponse deleteHeart(@PathVariable Long id) {
+        return deleteHeartService.deleteHeart(id);
     }
 }

@@ -36,6 +36,8 @@ public class PostDetailsService {
                             .id(skein.getId())
                             .userNickname(skein.getUser().getNickname())
                             .profileImage(s3Util.getProfileImgUrl(skein.getUser().getPath()))
+                            .userId(skein.getUser().getUserId())
+                            .file(s3Util.getSkeinImgUrl(skein.getPath()))
                             .build();
                     }
                 ).collect(Collectors.toList()))

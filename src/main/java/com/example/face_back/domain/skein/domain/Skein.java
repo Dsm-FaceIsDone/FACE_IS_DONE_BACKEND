@@ -32,15 +32,16 @@ public class Skein {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    private String skeinImgUrl;
-
+    private String path;
     @Builder
-    public Skein(User user, Post post){
+    public Skein(User user, Post post, String path){
         this.user = user;
         this.post = post;
+        this.path = path;
     }
 
-    public void skeinImgUpload (String skeinImgUrl){
-        this.skeinImgUrl = skeinImgUrl;
+    public String updatePath(String path) {
+        this.path = path;
+        return this.path;
     }
 }

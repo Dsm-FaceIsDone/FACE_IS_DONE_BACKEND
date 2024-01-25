@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306
+    url: jdbc:mysql://localhost:3306/Face
     username: ${DB_NAME}
     password: ${DB_PW}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -30,8 +30,8 @@ cloud:
       url: http://face.s3.s3-website.ap-northeast-2.amazonaws.com
       bucket: face.s3
     credentials:
-      access-key: AKIASLBWSW4ICNOGH3XX
-      secret-key: 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
+      access-key: ${AWS_AC}
+      secret-key: ${AWS_SC}
     region:
       static: ap-northeast-2
     stack:
